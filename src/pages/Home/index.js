@@ -4,18 +4,24 @@ import { Container, Grid, Button, ButtonGroup } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import * as ReadListActions from '../../store/modules/readList/actions';
 import * as WishListActions from '../../store/modules/wishList/actions';
-import ComicsBox from '../../components/ComicsBox'
+import NotFoundResults from '../../components/NotFoundResults';
+import ComicsBox from '../../components/ComicsBox';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import './styles.css';
 
 export default function Home() {
 
   const [comics, setComics] = useState([]);
+  const [loading, setLoading] = useState([false])
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadComics() {
+      setLoading(true);
       const response = await getComics();
       setComics(response);
+      setLoading(false);
     }
   
     loadComics();
@@ -57,7 +63,11 @@ export default function Home() {
       direction="row"
       spacing={3}
       >
-        {renderComics(comics)}
+        {comics.length > 0 
+        ? renderComics(comics) 
+        : loading 
+          ? <div className="loader"><CircularProgress disableShrink /></div>
+          : <NotFoundResults></NotFoundResults>}
       </Grid>
     </Container>
     

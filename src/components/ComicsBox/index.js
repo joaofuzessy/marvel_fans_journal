@@ -16,7 +16,7 @@ export default function ComicsBox(props){
       style={{backgroundImage: `url(${data.thumbnail.path}.${data.thumbnail.extension})`}}
       ></div>
       <div className="comicTitle">
-        <h3>{ellipsizeTextBox(data.title, 60)}</h3>
+        <h3>{ellipsizeTextBox(data.title, 50)}</h3>
       </div>
       <div className="comicDescription">
         {

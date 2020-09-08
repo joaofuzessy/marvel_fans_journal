@@ -1,0 +1,17 @@
+.appHeader{
+  background-color: #202020;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10%;
+}
+
+.appLogo{
+  display: flex;
+  align-items: center;
+}
+
+.appTitle{
+  color: white;
+  margin-right: 20px;
+}

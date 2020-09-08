@@ -3,7 +3,7 @@ import { getComics } from '../../services/getComics';
 import { Container, Grid, Button, ButtonGroup } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import * as ReadListActions from '../../store/modules/readList/actions';
-import * as WishListActions from '../../store/modules/readList/actions';
+import * as WishListActions from '../../store/modules/wishList/actions';
 import ComicsBox from '../../components/ComicsBox'
 import './styles.css';
 
@@ -23,10 +23,12 @@ export default function Home() {
 
   function handleAddComicToReadList(comic) {
     dispatch(ReadListActions.addToReadList(comic));
+    dispatch(WishListActions.removeFromWishList(comic));
   }
 
   function handleAddComicToWishList(comic) {
     dispatch(WishListActions.addToWishList(comic));
+    dispatch(ReadListActions.removeFromReadList(comic));
   }
 
   const renderComics = (comicsList) => {
@@ -34,7 +36,7 @@ export default function Home() {
       return (
      <ComicsBox data={comicsItem} key={comicsItem.id}>
        <ButtonGroup size="small" aria-label="small outlined button group">
-          <Button onClick={() => handleAddComicToWishList(comicsItem)>
+          <Button onClick={() => handleAddComicToWishList(comicsItem)}>
             Add to Reading List
           </Button>
           <Button onClick={() => handleAddComicToReadList(comicsItem)}>

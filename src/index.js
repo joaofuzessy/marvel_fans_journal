@@ -3,8 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import store from './store';
+import { saveState } from './localStorage'
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+
+store.subscribe(() => {
+  saveState(store.getState());
+})
 
 ReactDOM.render(
   <React.StrictMode>

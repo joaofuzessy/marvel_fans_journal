@@ -6,7 +6,6 @@ import './styles.css';
 export default function ComicsBox(props){
   const { data, children } = props;
 
-  
   const ellipsizeTextBox = (content, substrSize = 150) => content.length > substrSize? content.substr(0, substrSize)+"..." : content;
 
   return (

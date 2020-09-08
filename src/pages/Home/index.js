@@ -29,27 +29,23 @@ export default function Home() {
     loadComics();
   }, []);
 
-  function handleAddComicToReadList(comic) {
+  const handleAddComicToReadList = comic => {
     dispatch(ReadListActions.addToReadList(comic));
     dispatch(WishListActions.removeFromWishList(comic));
     setModalMessage("Added to comics you have already read! You can check it out on the menu.")
     handleClickOpen();
   }
 
-  function handleAddComicToWishList(comic) {
+  const handleAddComicToWishList = comic => {
     dispatch(WishListActions.addToWishList(comic));
     dispatch(ReadListActions.removeFromReadList(comic));
     setModalMessage("Added to comics you want to read! You can check it out on the menu.");
     handleClickOpen();
   }
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
 
-  const handleClose = (value) => {
-    setOpen(false);
-  };
+  const handleClose = value => setOpen(false);
 
   const renderComics = (comicsList) => {
     return comicsList.map(comicsItem => {

@@ -15,14 +15,14 @@ export default function ToRead() {
   const [modalMessage, setModalMessage] = useState('');
   const dispatch = useDispatch();
 
-  function removeFromList(comic) {
+  const removeFromList = comic => {
     dispatch(WishListActions.removeFromWishList(comic));
     setModalMessage("Removed from comics you want to read!");
     handleClickOpen();
 
   }
   
-  function handleMarkAsRead (comic){
+  const handleMarkAsRead = comic =>{
     dispatch(WishListActions.removeFromWishList(comic));
     dispatch(ReadListActions.addToReadList(comic));
     setModalMessage("Added to comics you have already read! You can check it out on the menu.");

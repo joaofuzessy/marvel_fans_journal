@@ -14,7 +14,7 @@ export default function Read() {
   const [modalMessage, setModalMessage] = useState('');
   const dispatch = useDispatch();
 
-  function removeFromList(comic) {
+  const removeFromList = comic => {
     dispatch(ReadListActions.removeFromReadList(comic));
     setModalMessage("Removed from comics you have already read!")
     handleClickOpen();

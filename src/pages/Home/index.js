@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getComics } from '../../services/getComics';
-import { Container, Grid, Button, ButtonGroup } from '@material-ui/core';
+import { Container, Grid, Button, ButtonGroup, Dialog, DialogTitle } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import * as ReadListActions from '../../store/modules/readList/actions';
 import * as WishListActions from '../../store/modules/wishList/actions';
@@ -13,7 +13,9 @@ import './styles.css';
 export default function Home() {
 
   const [comics, setComics] = useState([]);
-  const [loading, setLoading] = useState([false])
+  const [loading, setLoading] = useState([false]);
+  const [open, setOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,12 +32,24 @@ export default function Home() {
   function handleAddComicToReadList(comic) {
     dispatch(ReadListActions.addToReadList(comic));
     dispatch(WishListActions.removeFromWishList(comic));
+    setModalMessage("Added to comics you have already read! You can check it out on the menu.")
+    handleClickOpen();
   }
 
   function handleAddComicToWishList(comic) {
     dispatch(WishListActions.addToWishList(comic));
     dispatch(ReadListActions.removeFromReadList(comic));
+    setModalMessage("Added to comics you want to read! You can check it out on the menu.");
+    handleClickOpen();
   }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
 
   const renderComics = (comicsList) => {
     return comicsList.map(comicsItem => {
@@ -70,7 +84,10 @@ export default function Home() {
           : <NotFoundResults></NotFoundResults>}
       </Grid>
     </Container>
-    
+    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <DialogTitle id="simple-dialog-title">Done!</DialogTitle>
+      <div className="modalMessage">{modalMessage}</div>
+    </Dialog>
   </>
  );
 }

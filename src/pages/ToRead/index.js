@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Container, Grid, Button, ButtonGroup } from '@material-ui/core';
+import { Container, Grid, Button, ButtonGroup, Dialog, DialogTitle } from '@material-ui/core';
 import NotFoundResults from '../../components/NotFoundResults';
 import ComicsBox from '../../components/ComicsBox';
 import { useDispatch } from 'react-redux';
@@ -11,16 +11,31 @@ import './styles.css';
 export default function ToRead() {
 
   const comicsToRead = useSelector(state => state.wishList);
+  const [open, setOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const dispatch = useDispatch();
 
   function removeFromList(comic) {
     dispatch(WishListActions.removeFromWishList(comic));
+    setModalMessage("Removed from comics you want to read!");
+    handleClickOpen();
+
   }
   
   function handleMarkAsRead (comic){
     dispatch(WishListActions.removeFromWishList(comic));
     dispatch(ReadListActions.addToReadList(comic));
+    setModalMessage("Added to comics you have already read! You can check it out on the menu.");
+    handleClickOpen();
   }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
 
   const renderComics = (comicsList) => {
     return comicsList.map(comicsItem => {
@@ -48,6 +63,10 @@ export default function ToRead() {
           }
         </Grid>
       </Container>
+      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <DialogTitle id="simple-dialog-title">Done!</DialogTitle>
+        <div className="modalMessage">{modalMessage}</div>
+      </Dialog>
   </>
  );
 }

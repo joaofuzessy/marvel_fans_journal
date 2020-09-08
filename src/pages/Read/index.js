@@ -26,7 +26,7 @@ export default function Read() {
 
  return (
   <>
-    <Container maxWidth="sm">
+    <Container>
       <h1>Comics I have already read: {amount}</h1>
       <Grid 
       container

@@ -41,7 +41,7 @@ export default function Home() {
 
  return (
   <>
-    <Container maxWidth="sm">
+    <Container>
       <h1>All Marvel Comics</h1>
       <Grid 
       container

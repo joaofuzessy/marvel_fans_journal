@@ -27,20 +27,19 @@ export default function ToRead() {
 
  return (
   <>
-    <Container maxWidth="sm">
-      <h1>Comics I Want to Read: {amount}</h1>
-      <Grid 
-      container
-      direction="row"
-      spacing={3}
-      >
-        { readComics.length > 0 
-        ? renderComics(readComics) 
-        : <NotFoundResults></NotFoundResults>
-        }
-      </Grid>
-    </Container>
-    
+    <Container>
+        <h1>Comics I Want to Read: {amount}</h1>
+        <Grid 
+        container
+        direction="row"
+        spacing={3}
+        >
+          { readComics.length > 0 
+          ? renderComics(readComics) 
+          : <NotFoundResults></NotFoundResults>
+          }
+        </Grid>
+      </Container>
   </>
  );
 }

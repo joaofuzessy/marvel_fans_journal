@@ -1,46 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { getComics } from '../../services/getComics';
-import { Container, Grid } from '@material-ui/core';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Container, Grid, Button, ButtonGroup } from '@material-ui/core';
+import NotFoundResults from '../../components/NotFoundResults';
+import ComicsBox from '../../components/ComicsBox';
+
 import './styles.css';
  
 export default function ToRead() {
 
-  const [comics, setComics] = useState([]);
+  const readComics = useSelector(state => state.readList);
 
-  useEffect(() => {
-    async function loadComics() {
-      const response = await getComics();
-      setComics(response);
-    }
+  const amount = useSelector(state =>
+    state.readList.length
+  );
   
-    loadComics();
-  }, []);
-
-
   const renderComics = (comicsList) => {
     return comicsList.map(comicsItem => {
-      return (
-      <Grid container item xs={12} sm={6}>
-        <div 
-        className="comicsThumb"
-        style={{backgroundImage: `url(${comicsItem.thumbnail.path}.${comicsItem.thumbnail.extension})`}}
-        ></div>
-        <h3>{comicsItem.title}</h3>
-      </Grid>
-      );
+     return <ComicsBox data={comicsItem} key={comicsItem.id}>
+        <ButtonGroup size="small" aria-label="small outlined button group">
+          <Button>Mark as read</Button>
+          <Button>Remove from this list</Button>
+        </ButtonGroup>
+     </ComicsBox>
     })
   }
 
  return (
   <>
     <Container maxWidth="sm">
-      <h1>All Marvel Comics</h1>
+      <h1>Comics I Want to Read: {amount}</h1>
       <Grid 
       container
       direction="row"
       spacing={3}
       >
-        {renderComics(comics)}
+        { readComics.length > 0 
+        ? renderComics(readComics) 
+        : <NotFoundResults></NotFoundResults>
+        }
       </Grid>
     </Container>
     

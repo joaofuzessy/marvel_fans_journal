@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-const api = axios.create({
- baseURL: 'https://gateway.marvel.com:443/v1/public/',
-});
-
 export const getComics = async() => {
   try{
     let response = await axios.get(`https://gateway.marvel.com:443/v1/public/comics?apikey=70dc72ee8641520cd02edeeb4f5cb87d`)
@@ -13,4 +9,3 @@ export const getComics = async() => {
   }
 }
 
-export default api;

@@ -10,7 +10,7 @@ export default function ComicsBox(props){
   const ellipsizeTextBox = (content, substrSize = 150) => content.length > substrSize? content.substr(0, substrSize)+"..." : content;
 
   return (
-    <Grid container item xs={12} sm={3}>
+    <Grid container item xs={12} sm={3} className="comicsBox">
       <div 
       className="comicsThumb"
       style={{backgroundImage: `url(${data.thumbnail.path}.${data.thumbnail.extension})`}}
@@ -25,7 +25,9 @@ export default function ComicsBox(props){
           : "No description available"
         }
       </div>
-      {children}
+      <div className="buttonGroup">
+        {children}
+      </div>
     </Grid>
     );
 }

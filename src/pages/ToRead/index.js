@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Grid, Button, ButtonGroup, Dialog, DialogTitle } from '@material-ui/core';
-import NotFoundResults from '../../components/NotFoundResults';
-import ComicsBox from '../../components/ComicsBox';
+import NotFoundResults from '../../features/NotFoundResults';
+import SingleComic from '../../features/SingleComic';
 import { useDispatch } from 'react-redux';
-import * as WishListActions from '../../store/modules/wishList/actions';
-import * as ReadListActions from '../../store/modules/readList/actions';
+import * as WishListActions from '../../features/WishList/actions';
+import * as ReadListActions from '../../features/ReadList/actions';
 import './styles.css';
  
 export default function ToRead() {
@@ -39,12 +39,12 @@ export default function ToRead() {
 
   const renderComics = (comicsList) => {
     return comicsList.map(comicsItem => {
-     return <ComicsBox data={comicsItem} key={comicsItem.id}>
+     return <SingleComic data={comicsItem} key={comicsItem.id}>
         <ButtonGroup size="small" aria-label="small outlined button group">
           <Button onClick={() => handleMarkAsRead(comicsItem)}>Mark as read</Button>
           <Button onClick={() => removeFromList(comicsItem)}>Remove from this list</Button>
         </ButtonGroup>
-     </ComicsBox>
+     </SingleComic>
     })
   }
 

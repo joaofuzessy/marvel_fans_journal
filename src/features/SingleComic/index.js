@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import ReactHtmlParser from 'react-html-parser';
 import './styles.css';
 
-export default function ComicsBox(props){
+export default function SingleComic(props){
   const { data, children } = props;
 
   const ellipsizeTextBox = (content, substrSize = 150) => content.length > substrSize? content.substr(0, substrSize)+"..." : content;

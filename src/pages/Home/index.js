@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { getComics } from '../../services/getComics';
+import { useSelector } from 'react-redux';
 import { Container, Grid, Button, ButtonGroup, Dialog, DialogTitle } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import * as ReadListActions from '../../store/modules/readList/actions';
-import * as WishListActions from '../../store/modules/wishList/actions';
-import NotFoundResults from '../../components/NotFoundResults';
-import ComicsBox from '../../components/ComicsBox';
+import * as ReadListActions from '../../features/ReadList/actions';
+import * as WishListActions from '../../features/WishList/actions';
+import NotFoundResults from '../../features/NotFoundResults';
+import SingleComic from '../../features/SingleComic';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import { loadComics } from '../../features/Comics/comicsSlice'
 import './styles.css';
 
 export default function Home() {
+  const comics = useSelector(state => state.comics.comicsList);
+  const status = useSelector(state => state.comics.status);
+  //const error = useSelector(state => state.comics.error)
 
-  const [comics, setComics] = useState([]);
-  const [loading, setLoading] = useState([false]);
   const [open, setOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    async function loadComics() {
-      setLoading(true);
-      const response = await getComics();
-      setComics(response);
-      setLoading(false);
+    if (status === 'idle') {
+      dispatch(loadComics());
     }
-  
-    loadComics();
-  }, []);
+  }, [status, dispatch])
 
   const handleAddComicToReadList = comic => {
     dispatch(ReadListActions.addToReadList(comic));
@@ -50,7 +46,7 @@ export default function Home() {
   const renderComics = (comicsList) => {
     return comicsList.map(comicsItem => {
       return (
-     <ComicsBox data={comicsItem} key={comicsItem.id}>
+     <SingleComic data={comicsItem} key={comicsItem.id}>
        <ButtonGroup size="small" aria-label="small outlined button group">
           <Button onClick={() => handleAddComicToWishList(comicsItem)}>
             Add to Reading List
@@ -59,7 +55,7 @@ export default function Home() {
             Mark as Read
           </Button>
         </ButtonGroup>
-     </ComicsBox>
+     </SingleComic>
       );
     })
   }
@@ -73,9 +69,9 @@ export default function Home() {
       direction="row"
       spacing={3}
       >
-        {comics.length > 0 
+        {comics && comics.length > 0 
         ? renderComics(comics) 
-        : loading 
+        : status === 'loading'
           ? <div className="loader"><CircularProgress disableShrink /></div>
           : <NotFoundResults></NotFoundResults>}
       </Grid>

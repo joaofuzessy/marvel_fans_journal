@@ -12,14 +12,14 @@ const readList = createReducer([], {
    const comicExists = state.find(comic => comic.id === id);
   
    if (!comicExists) {
-     state.push(payload);
+     return [...state, payload]
    }
  },
  [removeFromReadList]: (state, action) => {
    const comicIndex = state.findIndex(comic=> comic.id === action.payload.id);
  
    if (comicIndex >= 0) {
-     state.splice(comicIndex, 1);
+    return state.slice(0, comicIndex).concat(state.slice(comicIndex+1))
    }
  },
 });
